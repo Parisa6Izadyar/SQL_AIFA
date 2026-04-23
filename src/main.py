@@ -13,7 +13,8 @@ import time
 
 SHEET_NAME= "Copy of Untitled spreadsheet"
 scope = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
-creds = Credentials.from_service_account_file("unina-461813-4fbfbaa37071.json", scopes=scope)
+
+creds = Credentials.from_service_account_file("service_account.json", scopes=scope)
 client = gspread.authorize(creds)
 sheet = client.open(SHEET_NAME)
 

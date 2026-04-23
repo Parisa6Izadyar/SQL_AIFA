@@ -24,6 +24,10 @@ The project focuses on collecting, organizing, and processing pharmaceutical inf
 - `requirements.txt` → required Python libraries
 - `README.md` → project documentation
 
+## Credentials
+This project requires a local Google service account credential file named `service_account.json`.
+For security reasons, credential files are not included in this repository.
+
 ## How to Run
 Install the required libraries first:
 
