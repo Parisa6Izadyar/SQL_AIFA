@@ -48,12 +48,13 @@ def load_catalog(path: Path) -> list[CatalogRow]:
         frame = pd.read_excel(path, dtype=str, keep_default_na=False)
     else:
         raise ValueError("Input must be a CSV or XLSX file")
-    columns = {normalize(c): c for c in frame.columns}
-
     def column(*names, required=False):
-        for name in names:
-            if normalize(name) in columns:
-                return columns[normalize(name)]
+        aliases = {normalize(name) for name in names}
+        matches = [name for name in frame.columns if normalize(name) in aliases]
+        if len(matches) > 1:
+            raise ValueError(f"Ambiguous input columns for {names[0]}: {matches}")
+        if matches:
+            return matches[0]
         if required:
             raise ValueError(f"Missing input column: {names[0]}")
         return None

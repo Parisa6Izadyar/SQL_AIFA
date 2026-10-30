@@ -17,9 +17,11 @@ def store_document(connection, url, data):
         raise ValueError("No supported RCP section with extractable text was found")
     checksum = hashlib.sha256(data).hexdigest()
     with connection:
-        connection.execute("INSERT OR IGNORE INTO pdf_versions VALUES (?, ?, ?)",
+        connection.execute("INSERT INTO pdf_versions VALUES (?, ?, ?) "
+                           "ON CONFLICT(sha256) DO UPDATE SET page_count = excluded.page_count, parser_version = excluded.parser_version",
                            (checksum, parsed.page_count, __version__))
-        connection.executemany("INSERT OR IGNORE INTO extracted_sections VALUES (?, ?, ?, ?, ?, ?)",
+        connection.execute("DELETE FROM extracted_sections WHERE sha256 = ?", (checksum,))
+        connection.executemany("INSERT INTO extracted_sections VALUES (?, ?, ?, ?, ?, ?)",
                                [(checksum, s.code, s.occurrence, s.page_start, s.page_end, s.text) for s in parsed.sections])
         products = connection.execute("SELECT DISTINCT aic FROM catalog_rows WHERE document_url = ?", (url,)).fetchall()
         connection.executemany("INSERT OR REPLACE INTO document_product_checks VALUES (?, ?, ?, ?)",

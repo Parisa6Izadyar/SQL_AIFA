@@ -6,7 +6,7 @@ The default input is `data/sql_link_pdf - parisa - Sheet1.csv`. CSV and XLSX rea
 
 AIC values must contain one to nine ASCII digits. Short values are padded on the left to nine digits, with the original value retained in `catalog_rows.raw_aic`. This restores the source format; it is not a check against the current authorization register or an AIC check-digit validator.
 
-Each source file has a SHA-256 identifier. Importing the same file again is idempotent. A different catalog requires a separate output directory, preventing accidental mixing of snapshots. Products are keyed by AIC; source rows remain separate. Conflicting nonempty metadata sets `products.review_required` and leaves the conflicting canonical field null. Both source values and their row numbers remain available.
+Each source file has a SHA-256 identifier. Importing the same file again is idempotent. A different catalog requires a separate output directory, preventing accidental mixing of snapshots. Ambiguous identifier or metadata columns are rejected instead of choosing one silently. Products are keyed by AIC; source rows remain separate. Conflicting nonempty metadata sets `products.review_required` and leaves the conflicting canonical field null. Both source values and their row numbers remain available.
 
 The URL validator accepts the AIFA RCP route used in the snapshot. Missing markers such as `NON` become missing links. A discrepancy between the URL's product-number segment and the first six AIC digits is a review heuristic. It does not prove document identity. The current sample contains one such discrepancy, confirmed by inspecting the returned PDF.
 
@@ -22,7 +22,7 @@ Extraction selects distinct document URLs linked to products without metadata/li
 
 Requests use HTTPS, a 5-second connection timeout, a 20-second read timeout, two bounded retries for transient statuses and a 30 MiB response limit. Redirects are rejected. Downloads are sequential, with a one-second interval by default. The cache key is the URL hash and its manifest contains the PDF's SHA-256. Corrupted cached files are rejected; `--refresh` explicitly replaces the cached response.
 
-Each successfully parsed PDF has a content hash, page count and parser version. Fetch attempts record their time and either the hash or error. A failed attempt preserves the last successful PDF association and extracted text. Failed documents are excluded from Sheets export until a successful processing attempt clears the error.
+Each successfully parsed PDF has a content hash, page count and parser version. Reprocessing the same content replaces its section rows and parser version in one database transaction, so obsolete occurrences do not remain after a parser change. Fetch attempts record their time and either the hash or error. A failed attempt preserves the last successful PDF association and extracted text. Failed documents are excluded from Sheets export until a successful processing attempt clears the error.
 
 ## Section parsing
 

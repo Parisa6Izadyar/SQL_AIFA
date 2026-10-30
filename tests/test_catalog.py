@@ -75,3 +75,13 @@ def test_existing_excel_and_csv_preserve_the_same_aics():
     assert len(excel) == len(csv_rows) == 332
     assert [row.aic for row in excel] == [row.aic for row in csv_rows]
     assert excel[0].sections["4.3"]
+
+
+def test_multiple_identifier_aliases_are_rejected(catalog_file):
+    rows = list(csv.reader(catalog_file.open()))
+    rows[0].append("AIC")
+    rows[1].append("009999999")
+    with catalog_file.open("w", newline="") as stream:
+        csv.writer(stream).writerows(rows)
+    with pytest.raises(ValueError, match="Ambiguous input columns"):
+        load_catalog(catalog_file)

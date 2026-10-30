@@ -1,3 +1,4 @@
+import json
 from unittest.mock import MagicMock
 
 import pytest
@@ -5,6 +6,7 @@ import requests
 
 from aifa_pipeline.download import fetch_pdf
 from aifa_pipeline.pipeline import process_documents, store_document
+from aifa_pipeline.extract import ParsedDocument, Section
 from conftest import URL
 
 
@@ -59,3 +61,27 @@ def test_wrong_product_identity_is_exposed(database, pdf_bytes):
     database.commit()
     store_document(database, URL, pdf_bytes)
     assert database.execute("SELECT status FROM document_product_checks").fetchone()[0] == "not_found"
+
+
+def test_invalid_cache_manifest_records_failure_without_losing_data(database, pdf_bytes, tmp_path):
+    original = store_document(database, URL, pdf_bytes)
+    session = response_session(pdf_bytes)
+    fetch_pdf(URL, tmp_path, session)
+    next(tmp_path.glob("*.json")).write_text(json.dumps({"url": URL}))
+    results = process_documents(database, tmp_path, limit=1, session=session, delay=0)
+    assert results[0]["status"] == "error"
+    assert "Invalid cached PDF manifest" in results[0]["error"]
+    assert database.execute("SELECT latest_sha256 FROM documents").fetchone()[0] == original["sha256"]
+    assert database.execute("SELECT COUNT(*) FROM extracted_sections").fetchone()[0] > 0
+
+
+def test_reprocessing_same_pdf_replaces_previous_parser_output(database, pdf_bytes, monkeypatch):
+    original = store_document(database, URL, pdf_bytes)
+    replacement = ParsedDocument(1, [Section("4.1", 1, 1, 1, "Reparsed text")], {"001234567"})
+    monkeypatch.setattr("aifa_pipeline.pipeline.parse_pdf", lambda data: replacement)
+    monkeypatch.setattr("aifa_pipeline.pipeline.__version__", "next-parser")
+    updated = store_document(database, URL, pdf_bytes)
+    assert updated["sha256"] == original["sha256"]
+    rows = database.execute("SELECT code, text FROM extracted_sections").fetchall()
+    assert [(row["code"], row["text"]) for row in rows] == [("4.1", "Reparsed text")]
+    assert database.execute("SELECT parser_version FROM pdf_versions").fetchone()[0] == "next-parser"

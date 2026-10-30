@@ -1,5 +1,5 @@
 {
-  "pipeline_version": "1.0.0",
+  "pipeline_version": "1.0.1",
   "python": "3.12.14",
   "sqlite": "3.53.1",
   "packages": {
@@ -118,12 +118,12 @@
     {
       "sha256": "12da4ae8e4b7112a0021bbe49e7e85e68199f38cbb63ae40c5d901f4fd306c4c",
       "page_count": 48,
-      "parser_version": "1.0.0"
+      "parser_version": "1.0.1"
     },
     {
       "sha256": "e6de630de8df0f0d1f85e473836f8338332abbbb599d79e8d5ea411a78d8cabd",
       "page_count": 28,
-      "parser_version": "1.0.0"
+      "parser_version": "1.0.1"
     }
   ],
   "identity_checks": [
@@ -136,13 +136,15 @@
   "recorded_date": "2026-10-30",
   "verification": {
     "environment": "Local Python 3.12, Linux",
-    "tests_passed": 33,
+    "tests_passed": 36,
     "live_downloaded_pdfs": 2,
     "live_pdf_pages": 76,
     "nonempty_section_occurrences": 70,
     "target_types_per_pdf": 10,
     "accuracy_evaluated": false,
     "google_sheets_live_write_tested": false,
-    "hosted_codespaces_tested": false
+    "hosted_codespaces_tested": true,
+    "hosted_codespaces_verified_command": "python -m aifa_pipeline extract --limit 2",
+    "hosted_codespaces_verified_commit": "1d3f089fa4122e8a08fdd15621ae003178ed91a4"
   }
 }

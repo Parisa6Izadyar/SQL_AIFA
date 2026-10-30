@@ -59,7 +59,7 @@ All source AIC values need leading-zero restoration to reach nine digits. The ra
 
 A local live run on 30 October 2026 downloaded **two PDFs covering 76 pages**. The parser retained **70 section occurrences**, with all ten target section types present in both documents. Four linked package AICs were found in their PDF text. These counts describe this small run and do not measure extraction accuracy. The PDFs contain multiple formulations, so repeated sections remain separate with page ranges.
 
-The automated suite has **33 tests**. CI builds the actual bundled catalog and tests the parser with synthetic PDFs; it does not download live AIFA documents or contact Google Sheets. The [validation record](docs/validation.md) distinguishes these checks.
+The automated suite has **36 tests**. CI builds the actual bundled catalog and tests the parser with synthetic PDFs; it does not download live AIFA documents or contact Google Sheets. A live two-document extraction has also completed in Codespaces. The [validation record](docs/validation.md) distinguishes these checks.
 
 ## SQL model and reports
 

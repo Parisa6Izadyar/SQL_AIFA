@@ -29,7 +29,13 @@ def fetch_pdf(url: str, cache: Path, session, refresh=False, max_bytes=MAX_BYTES
     pdf_path, manifest = cache / f"{key}.pdf", cache / f"{key}.json"
     if not refresh and pdf_path.exists() and manifest.exists():
         data = pdf_path.read_bytes()
-        expected = json.loads(manifest.read_text())["sha256"]
+        try:
+            metadata = json.loads(manifest.read_text())
+            expected = metadata["sha256"]
+            if metadata["url"] != url or not isinstance(expected, str):
+                raise ValueError("Unexpected cache metadata")
+        except (KeyError, TypeError, ValueError) as error:
+            raise ValueError("Invalid cached PDF manifest; rerun with --refresh") from error
         if hashlib.sha256(data).hexdigest() != expected or not data.startswith(b"%PDF-"):
             raise ValueError("Cached PDF checksum mismatch; rerun with --refresh")
         if len(data) > max_bytes:
@@ -51,5 +57,7 @@ def fetch_pdf(url: str, cache: Path, session, refresh=False, max_bytes=MAX_BYTES
     temporary = pdf_path.with_suffix(".part")
     temporary.write_bytes(data)
     temporary.replace(pdf_path)
-    manifest.write_text(json.dumps({"url": url, "sha256": hashlib.sha256(data).hexdigest()}, indent=2) + "\n")
+    temporary_manifest = manifest.with_suffix(".json.part")
+    temporary_manifest.write_text(json.dumps({"url": url, "sha256": hashlib.sha256(data).hexdigest()}, indent=2) + "\n")
+    temporary_manifest.replace(manifest)
     return data
