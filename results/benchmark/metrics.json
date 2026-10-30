@@ -1,0 +1,148 @@
+{
+  "pipeline_version": "1.0.0",
+  "python": "3.12.14",
+  "sqlite": "3.53.1",
+  "packages": {
+    "pandas": "2.2.3",
+    "PyMuPDF": "1.26.6",
+    "requests": "2.32.5",
+    "openpyxl": "3.1.5"
+  },
+  "sources": [
+    {
+      "filename": "sql_link_pdf - parisa - Sheet1.csv",
+      "sha256": "b8aaa79716707a960b0bc7bc147a6a6a9d1cb444fb82f902428f0edef82ebaaa",
+      "row_count": 332
+    }
+  ],
+  "catalog": {
+    "source_rows": 332,
+    "unique_aic": 331,
+    "active_ingredients": 58,
+    "distinct_pdf_urls": 148,
+    "rows_with_pdf_url": 320,
+    "rows_without_pdf_url": 12,
+    "products_requiring_review": 2,
+    "extracted_documents": 2
+  },
+  "issue_counts_by_source_row": {
+    "aic_zero_padding": 332,
+    "conflicting_aic_metadata": 2,
+    "duplicate_aic": 2,
+    "missing_pdf_url": 12,
+    "url_aic_prefix_mismatch": 1
+  },
+  "legacy_sections": [
+    {
+      "code": "4.1",
+      "title": "Indicazioni terapeutiche",
+      "source_rows": 332,
+      "missing": 59,
+      "unverified": 273,
+      "truncated": 0
+    },
+    {
+      "code": "4.2",
+      "title": "Posologia e modo di somministrazione",
+      "source_rows": 332,
+      "missing": 59,
+      "unverified": 273,
+      "truncated": 0
+    },
+    {
+      "code": "4.3",
+      "title": "Controindicazioni",
+      "source_rows": 332,
+      "missing": 59,
+      "unverified": 273,
+      "truncated": 0
+    },
+    {
+      "code": "4.4",
+      "title": "Avvertenze speciali e precauzioni d’impiego",
+      "source_rows": 332,
+      "missing": 59,
+      "unverified": 273,
+      "truncated": 0
+    },
+    {
+      "code": "4.5",
+      "title": "Interazioni con altri medicinali",
+      "source_rows": 332,
+      "missing": 59,
+      "unverified": 264,
+      "truncated": 9
+    },
+    {
+      "code": "4.6",
+      "title": "Fertilità, gravidanza e allattamento",
+      "source_rows": 332,
+      "missing": 92,
+      "unverified": 240,
+      "truncated": 0
+    },
+    {
+      "code": "4.7",
+      "title": "Effetti sulla capacità di guidare veicoli",
+      "source_rows": 332,
+      "missing": 59,
+      "unverified": 273,
+      "truncated": 0
+    },
+    {
+      "code": "4.8",
+      "title": "Effetti indesiderati",
+      "source_rows": 332,
+      "missing": 59,
+      "unverified": 273,
+      "truncated": 0
+    },
+    {
+      "code": "4.9",
+      "title": "Sovradosaggio",
+      "source_rows": 332,
+      "missing": 59,
+      "unverified": 273,
+      "truncated": 0
+    },
+    {
+      "code": "6.2",
+      "title": "Incompatibilità",
+      "source_rows": 332,
+      "missing": 59,
+      "unverified": 273,
+      "truncated": 0
+    }
+  ],
+  "document_versions": [
+    {
+      "sha256": "12da4ae8e4b7112a0021bbe49e7e85e68199f38cbb63ae40c5d901f4fd306c4c",
+      "page_count": 48,
+      "parser_version": "1.0.0"
+    },
+    {
+      "sha256": "e6de630de8df0f0d1f85e473836f8338332abbbb599d79e8d5ea411a78d8cabd",
+      "page_count": 28,
+      "parser_version": "1.0.0"
+    }
+  ],
+  "identity_checks": [
+    {
+      "status": "present",
+      "n": 4
+    }
+  ],
+  "interpretation": "Legacy text is unverified. Extracted section counts measure coverage, not clinical or extraction accuracy.",
+  "recorded_date": "2026-10-30",
+  "verification": {
+    "environment": "Local Python 3.12, Linux",
+    "tests_passed": 33,
+    "live_downloaded_pdfs": 2,
+    "live_pdf_pages": 76,
+    "nonempty_section_occurrences": 70,
+    "target_types_per_pdf": 10,
+    "accuracy_evaluated": false,
+    "google_sheets_live_write_tested": false,
+    "hosted_codespaces_tested": false
+  }
+}
