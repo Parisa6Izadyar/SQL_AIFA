@@ -4,7 +4,15 @@ __pycache__/
 *.pyc
 *.pyo
 *.pyd
-*.json
+service_account*.json
+*credentials*.json
+.pytest_cache/
+pytest-of-root/
+results/reproduced/
+results/raw_probe/
+results/sheets_plan.json
+*.sqlite
+*.sqlite-*
 .env
 .DS_Store
 

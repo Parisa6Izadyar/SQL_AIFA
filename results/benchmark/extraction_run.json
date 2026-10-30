@@ -1,0 +1,18 @@
+[
+  {
+    "url": "https://api.aifa.gov.it/aifa-bdf-eif-be/1.0.0/organizzazione/28/farmaci/24022/stampati?ts=RCP",
+    "sha256": "12da4ae8e4b7112a0021bbe49e7e85e68199f38cbb63ae40c5d901f4fd306c4c",
+    "pages": 48,
+    "section_occurrences": 50,
+    "distinct_sections": 10,
+    "status": "ok"
+  },
+  {
+    "url": "https://api.aifa.gov.it/aifa-bdf-eif-be/1.0.0/organizzazione/40/farmaci/29757/stampati?ts=RCP",
+    "sha256": "e6de630de8df0f0d1f85e473836f8338332abbbb599d79e8d5ea411a78d8cabd",
+    "pages": 28,
+    "section_occurrences": 20,
+    "distinct_sections": 10,
+    "status": "ok"
+  }
+]
